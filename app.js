@@ -70,7 +70,8 @@ async function init(){
         const snap = await F.getDoc(F.doc(db,"users",u.uid));
         profile = snap.exists() ? snap.data() : null;
         if (!profile || !profile.country) openProfile(true);
-        await refreshWeeklyCount();
+        // Best-effort: a count failure must never block the signed-in UI.
+        try { await refreshWeeklyCount(); } catch(e){ console.warn("Weekly count failed:", e); }
       } else { profile=null; myWeeklyCount=0; }
       renderAuth(); renderLimitNote(); renderItems();
     });
@@ -233,8 +234,13 @@ async function submitPost(e){
     await F.addDoc(F.collection(db,"items"), { type, title, category, condition, description:desc, country, city,
       imageUrl: imageUrl||"", ownerId:user.uid, ownerName:profile.displayName, ownerPhone:profile.phone||"",
       status:"available", createdAt:F.serverTimestamp(), updatedAt:F.serverTimestamp() });
-    await refreshWeeklyCount(); renderLimitNote();
+    // The post is saved at this point — close the dialog NOW, so a later
+    // bookkeeping failure (e.g. the weekly-count query needing a composite
+    // index) can never look like a failed post. The count refresh is
+    // best-effort only.
     $("#postDialog").close(); e.target.reset();
+    try { await refreshWeeklyCount(); } catch(cntErr){ console.warn("Weekly count refresh failed (post saved OK):", cntErr); }
+    renderLimitNote();
   } catch(ex){ err.textContent = "Could not post: "+ex.message; err.hidden=false; }
   finally { $("#btnSubmitPost").disabled=false; $("#btnSubmitPost").textContent="Post item"; }
 }

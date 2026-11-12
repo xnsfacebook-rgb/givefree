@@ -1,0 +1,1 @@
+{"fieldOverrides":[],"indexes":[{"collectionGroup":"items","fields":[{"fieldPath":"ownerId","order":"ASCENDING"},{"fieldPath":"createdAt","order":"ASCENDING"}],"queryScope":"COLLECTION"}]}

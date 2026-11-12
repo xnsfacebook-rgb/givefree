@@ -78,6 +78,13 @@ cp firestore.rules firestore.rules   # (or point firebase.json at these files)
 firebase deploy --only firestore:rules,storage
 ```
 
+> **Composite index (required):** the weekly-limit count queries
+> `items` by `ownerId` + `createdAt`, which needs a composite index
+> (`firestore.indexes.json`). Without it, posting saves the item but shows
+> "Could not post: The query requires an index". Create it with
+> `firebase deploy --only firestore:indexes`, or open the link shown in the
+> error — the console pre-fills the index, just click Create.
+
 ## 5. Deploy the website
 
 Any static host. Easiest with the same project:
