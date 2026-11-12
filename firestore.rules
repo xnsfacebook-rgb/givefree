@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Users: anyone signed in can read profiles (needed to show giver info);
+    // only the owner can write their own profile.
+    match /users/{uid} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // Items: anyone (even signed out) can read available items;
+    // only signed-in users can create; only the owner can update/delete.
+    // Weekly limit (2 / 7 days) is enforced in the app (app.js) by counting
+    // the owner's posts in the last 7 days before creating.
+    // For hard server-side enforcement, add a Cloud Function (see SETUP.md).
+    match /items/{itemId} {
+      allow read: if true;
+      allow create: if request.auth != null
+        && request.resource.data.ownerId == request.auth.uid
+        && request.resource.data.title is string
+        && request.resource.data.title.size() > 0
+        && request.resource.data.title.size() <= 80
+        && request.resource.data.type in ['give', 'need']
+        && request.resource.data.status == 'available';
+      allow update: if request.auth != null
+        && resource.data.ownerId == request.auth.uid;
+      allow delete: if request.auth != null
+        && resource.data.ownerId == request.auth.uid;
+    }
+  }
+}

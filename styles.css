@@ -1,0 +1,97 @@
+/* GiveFree — simple, mobile-first, responsive */
+:root{
+  --green:#1a7f4b; --green-dark:#14663c; --ink:#1c2b21; --muted:#667085;
+  --line:#e4e7ec; --bg:#f6f7f4; --card:#fff; --amber:#b54708; --radius:14px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+.wrap{max-width:1020px;margin:0 auto;padding:0 16px}
+a{color:var(--green)}
+button{font:inherit;cursor:pointer}
+input,select,textarea{font:inherit;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fff}
+input:focus,select:focus,textarea:focus{outline:2px solid #a6e3bd;border-color:var(--green)}
+small{color:var(--muted)}
+
+/* Top bar */
+.topbar{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.topbar-in{display:flex;align-items:center;gap:12px;min-height:56px;flex-wrap:wrap;padding-top:6px;padding-bottom:6px}
+.logo{font-size:22px;font-weight:800;text-decoration:none;color:var(--ink)}
+.logo span{color:var(--green)}
+.topnav{display:flex;gap:4px;margin-left:auto}
+.nav-btn{border:0;background:none;padding:8px 10px;border-radius:999px;color:var(--muted);font-weight:600}
+.nav-btn.active{background:#e7f5ec;color:var(--green-dark)}
+.auth-area{display:flex;align-items:center;gap:8px}
+.avatar{width:32px;height:32px;border-radius:50%;object-fit:cover}
+.user-chip{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px}
+.user-chip button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 10px;font-size:13px}
+
+/* Buttons */
+.btn{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 16px;font-weight:700}
+.btn-primary{background:var(--green);border-color:var(--green);color:#fff}
+.btn-primary:hover{background:var(--green-dark)}
+.btn-primary:disabled{opacity:.55;cursor:not-allowed}
+.btn-outline{border-color:var(--green);color:var(--green-dark);background:#fff}
+.btn-google{background:#fff}
+.btn-ghost{border-color:transparent;background:none;color:var(--muted)}
+.btn-lg{padding:12px 22px;font-size:16px}
+.btn-sm{padding:6px 12px;font-size:13px}
+
+/* Hero */
+.hero{text-align:center;padding:32px 0 8px}
+.hero h1{font-size:clamp(28px,5vw,44px);line-height:1.15;margin:0 0 10px}
+.hero-sub{color:var(--muted);font-size:17px;margin:0 0 18px}
+.hero-cta{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.limit-note{color:var(--muted);font-size:14px;margin-top:14px}
+
+/* Filters */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius)}
+.filters{margin:20px 0 8px;padding:14px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-weight:700;color:var(--muted)}
+.tab.active{background:var(--ink);border-color:var(--ink);color:#fff}
+.filter-row{display:grid;grid-template-columns:1fr;gap:8px}
+@media(min-width:640px){.filter-row{grid-template-columns:1fr 1fr 1fr 1.4fr}}
+.count{color:var(--muted);font-size:14px;margin:10px 2px}
+
+/* Grid + cards */
+.grid{display:grid;grid-template-columns:1fr;gap:14px;padding-bottom:24px}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+@media(min-width:920px){.grid{grid-template-columns:1fr 1fr 1fr}}
+.item{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column}
+.item img.thumb{width:100%;height:180px;object-fit:cover;background:#eef2ee;display:block}
+.item-body{padding:14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.badge{display:inline-block;font-size:12px;font-weight:800;padding:3px 9px;border-radius:999px;width:max-content}
+.badge-give{background:#dcfae6;color:#067647}
+.badge-need{background:#fef0c7;color:#b54708}
+.badge-done{background:#f2f4f7;color:var(--muted)}
+.item h3{margin:0;font-size:17px}
+.meta{color:var(--muted);font-size:13px}
+.desc{font-size:14px;margin:0;flex:1}
+.item-foot{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.item-foot .spacer{flex:1}
+.owner{font-size:13px;color:var(--muted)}
+
+/* Empty / how */
+.empty{text-align:center;padding:36px 12px 48px;color:var(--muted)}
+.empty-emoji{font-size:44px;margin:0}
+.how{padding:8px 16px 32px}
+.steps li,.how li{margin-bottom:8px}
+.setup-banner{background:#fffaeb;border:1px solid #fedf89;color:#7a3c06;border-radius:12px;padding:10px 14px;margin-top:16px;font-size:14px}
+.setup-banner code{background:#fff3d6;padding:1px 5px;border-radius:6px}
+
+/* Dialogs */
+.dialog{border:1px solid var(--line);border-radius:16px;padding:20px;max-width:520px;width:calc(100% - 32px)}
+.dialog::backdrop{background:rgba(0,0,0,.45)}
+.dialog h2{margin:0 0 12px}
+.field{margin-bottom:12px}
+.field label{display:block;font-weight:700;font-size:13px;margin-bottom:5px}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg{display:flex;gap:16px}
+.seg label{font-weight:600;display:flex;gap:6px;align-items:center}
+.seg input{width:auto}
+.dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:6px}
+.err{background:#fef3f2;color:#b42318;border:1px solid #fecdca;border-radius:10px;padding:8px 10px;font-size:14px}
+.muted{color:var(--muted);font-size:14px}
+.weekly{font-size:13px;color:var(--muted);background:#f2f4f7;border-radius:10px;padding:8px 10px}
+.detail-img{width:100%;max-height:280px;object-fit:cover;border-radius:12px}
+.footer{color:var(--muted);font-size:13px;text-align:center;padding:24px 16px 40px;border-top:1px solid var(--line)}
