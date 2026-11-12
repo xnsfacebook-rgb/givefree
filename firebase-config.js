@@ -1,19 +1,13 @@
-/* GiveFree — Firebase configuration.
- * HOW TO FILL THIS IN (5 minutes, see SETUP.md):
- *  1. Go to https://console.firebase.google.com → Create project → enable
- *     Authentication (Google provider), Firestore Database, Storage.
- *  2. Project settings → Your apps → Web app → copy the firebaseConfig object.
- *  3. Paste the values below, replacing the "YOUR_..." placeholders.
- *  4. Deploy firestore.rules + storage.rules (see SETUP.md).
- * Do NOT commit real keys to a public repo you don't own — these web keys are
- * safe to ship in client code (security lives in Firestore/Storage rules),
- * but keep the project itself under your Google account.
+/* GiveFree — Firebase configuration (project givefree-4e1f0, app givefree-web).
+ * Web keys are safe to ship in client code (Firebase docs); security lives in
+ * Firestore rules (firestore.rules). Project stays under the owner's Google account.
  */
 window.GIVEFREE_FIREBASE_CONFIG = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDxLOZEap1eF_pm7sLWQV00SJffaX_HPWE",
+  authDomain: "givefree-4e1f0.firebaseapp.com",
+  projectId: "givefree-4e1f0",
+  storageBucket: "givefree-4e1f0.firebasestorage.app",
+  messagingSenderId: "998595055211",
+  appId: "1:998595055211:web:137ce8a7ae04a5a5246b2e",
+  measurementId: "G-895SB7LK3C"
 };
