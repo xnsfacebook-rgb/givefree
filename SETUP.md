@@ -1,15 +1,49 @@
 # GiveFree — Go-live setup (about 5 minutes)
 
+## Is Firebase free? Yes — with one catch
+
+**Spark plan = free, no card needed.** It covers everything GiveFree needs at the
+start: Google sign-in (50,000 users/month free), Firestore (1 GiB stored,
+50,000 reads + 20,000 writes per day), Hosting (10 GB). If usage stays under
+those quotas, the bill is $0 — and if a quota runs out, Firebase just pauses
+that service instead of charging you.
+
+**Catch (since 3 Feb 2026): Cloud Storage now requires the Blaze plan**
+(pay-as-you-go, card required). On Spark, photo *uploads* fail. The app handles
+that: a post still goes through without the photo, and you can paste an image
+link instead. If you later want uploads, upgrade to Blaze (no monthly fee —
+you keep the same free quotas and only pay for usage above them; set a budget
+alert first). This is the only paid piece; Auth + Firestore stay free on Spark.
+
 ## 1. Create the Firebase project
 
-1. Go to https://console.firebase.google.com → **Add project** → name it `givefree` → continue (Google Analytics optional).
-2. **Authentication** → Get started → Sign-in method → enable **Google** → save.
-   - Add your site domain later under Authentication → Settings → **Authorized domains**
-     (for local testing, `localhost` is allowed by default).
-3. **Firestore Database** → Create database → **Start in production mode** → pick a region close to your users (e.g. `asia-southeast1` Singapore).
-4. **Storage** → Get started → same region.
+1. Open **https://console.firebase.google.com** in your browser (not
+   firebase.google.com — that is the marketing site) and sign in with your
+   Google account.
+2. On the console home you will see your projects as cards. Click **Add project**
+   (or **Create a project** — the big tile with a `+`). If you already have a
+   project open, click the project name at the top-left → **Add project**.
+3. Project name: `givefree` → **Continue** → turn **Google Analytics OFF**
+   (not needed) → **Create project** → wait ~30 seconds → **Continue**.
+4. You are now inside the project. The left sidebar has a **Build** section —
+   that is where Authentication, Firestore Database and Storage live.
 
-## 2. Paste your web keys
+## 2. Enable the services (left sidebar → Build)
+
+1. **Authentication** → **Get started** → tab **Sign-in method** → click
+   **Google** → turn **Enable** ON → pick your email as **Project support email**
+   → **Save**.
+   - Add your site domain later under Authentication → Settings →
+     **Authorized domains** (for local testing, `localhost` is allowed by default).
+2. **Firestore Database** → **Create database** → choose **Standard edition** →
+   **Next** → **Start in production mode** → location: pick
+   `asia-southeast1` (Singapore, closest to Vietnam/Korea) → **Enable**.
+3. **Storage** → **Get started** → same region. ⚠️ On the free Spark plan this
+   page may redirect you to an upgrade page — that is the Feb 2026 change above.
+   **Skip it:** the site works without Storage (image links still work, and a
+   failed upload never blocks a post). Only do this step if you upgrade to Blaze.
+
+## 3. Paste your web keys
 
 Project settings (⚙️) → **Your apps** → Web app `</>` → register app `givefree-web` → copy the `firebaseConfig` object.
 
@@ -28,11 +62,12 @@ window.GIVEFREE_FIREBASE_CONFIG = {
 
 These are public web keys — safe to ship in client code. Real security is in the rules below.
 
-## 3. Deploy the security rules
+## 4. Deploy the security rules
 
 Option A — Firebase console:
 - Firestore → **Rules** tab → paste `firestore.rules` → Publish.
-- Storage → **Rules** tab → paste `storage.rules` → Publish.
+- Storage → **Rules** tab → paste `storage.rules` → Publish. (Skip if you
+  skipped Storage on Spark — this file is only needed after a Blaze upgrade.)
 
 Option B — Firebase CLI:
 ```bash
@@ -43,7 +78,7 @@ cp firestore.rules firestore.rules   # (or point firebase.json at these files)
 firebase deploy --only firestore:rules,storage
 ```
 
-## 4. Deploy the website
+## 5. Deploy the website
 
 Any static host. Easiest with the same project:
 
@@ -54,7 +89,7 @@ firebase deploy --only hosting
 
 Or: GitHub Pages / Netlify / Vercel / Cloudflare Pages — upload this folder as-is (no build).
 
-## 5. Test the full flow
+## 6. Test the full flow
 
 1. Open the site → **Sign in with Google** → complete profile (name, country, city).
 2. Post a **Give** item, then a **Need** item → counter shows `2/2 this week`.

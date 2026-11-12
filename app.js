@@ -218,8 +218,17 @@ async function submitPost(e){
     let imageUrl = imageUrlInput;
     const file = $("#pImage").files[0];
     if (file){
-      const r = F.ref(storage, `items/${user.uid}/${Date.now()}-${file.name}`);
-      await F.uploadBytes(r, file); imageUrl = await F.getDownloadURL(r);
+      // Photo upload needs Cloud Storage, which since Feb 2026 requires the
+      // Blaze plan. On the free Spark plan this fails — so never let a failed
+      // upload block the post itself: keep the image URL if given, else post
+      // without a photo and tell the user.
+      try{
+        const r = F.ref(storage, `items/${user.uid}/${Date.now()}-${file.name}`);
+        await F.uploadBytes(r, file); imageUrl = await F.getDownloadURL(r);
+      }catch(upErr){
+        console.warn("Photo upload failed (Storage needs the Blaze plan):", upErr);
+        alert("Photo could not be uploaded — Cloud Storage needs the Blaze plan. Your item will be posted without the photo (you can paste an image link instead).");
+      }
     }
     await F.addDoc(F.collection(db,"items"), { type, title, category, condition, description:desc, country, city,
       imageUrl: imageUrl||"", ownerId:user.uid, ownerName:profile.displayName, ownerPhone:profile.phone||"",
